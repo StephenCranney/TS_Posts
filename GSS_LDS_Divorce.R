@@ -8,6 +8,7 @@ gss <- subset(gss, year > 2003)
 
 #Subset LDS
 gss$lds<-ifelse(gss$other=="mormon", 1, 0)
+gss$lds<-ifelse(is.na(gss$lds), 0, gss$lds)
 
 #Generate divorced indicator 
 gss$DIVORCE<-ifelse(gss$divorce=="yes" | gss$marital=="divorced" | gss$marital=="separated", 1, 0)
