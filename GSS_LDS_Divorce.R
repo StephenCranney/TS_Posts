@@ -26,7 +26,7 @@ crosstab(df = gss, x = lds  , y = DIVORCE , weight = wtssall)
 
 #Basic t-test and regressions
 t.test(gss$lds,gss$DIVORCE)
-summary(glm(DIVORCE~ lds+ age, data=gss, weights=wtssall))
-summary(glm(DIVORCE~ lds+ age + year, data=gss, weights=wtssall))
-summary(glm(DIVORCE~ lds, data=gss, weights=wtssall))
+summary(glm(DIVORCE~ lds+ age, data=gss, weights=wtssall, family="binomial"))
+summary(glm(DIVORCE~ lds+ age + year, data=gss, weights=wtssall, family="binomial"))
+summary(glm(DIVORCE~ lds, data=gss, weights=wtssall, family="binomial"))
 
