@@ -38,7 +38,7 @@ models <- lapply(varlist, function(x) {
 
 ex1_incident <- da38321.0003 %>%
   
-#  select(YEARQ, IDPER, MSAIND, TOC_RECODE, V4022, WGTVIC, SERIESWGT, SERIESWGT_NUM) %>% filter(MSAIND=='(29) New York-Newark-Jersey City, NY-NJ-PA') %>%  TO REPLICATE 
+#  select(YEARQ, IDPER, MSAIND, TOC_RECODE, V4022, WGTVIC, SERIESWGT, SERIESWGT_NUM) %>% filter(MSAIND=='(29) New York-Newark-Jersey City, NY-NJ-PA') %>%  #TO REPLICATE 
   select(YEARQ, IDPER, MSAIND, TOC_RECODE, V4022, WGTVIC, SERIESWGT, SERIESWGT_NUM) %>% filter(MSAIND==x) %>%
   
   mutate(
@@ -71,7 +71,7 @@ filter(!EXCLUDE_OUTUS, VIOLENT) %>% group_by(YEARQ, IDPER) %>% summarise(WGTVIC2
 # Step 3 - Merge victimization summary file onto appropriate file
 ex1_person <- da38321.0002 %>%
   select(YEAR, YEARQ, IDPER, MSAIND, WGTPER, starts_with("PERREPWGT"), V3018) %>%
-#  filter(MSAIND=='(43) Salt Lake City, UT')
+#  filter(MSAIND=='(29) New York-Newark-Jersey City, NY-NJ-PA')
   filter(MSAIND==x)
  
 ex1_merged_file <- ex1_person %>%
@@ -90,14 +90,14 @@ ex1_des <- ex1_analysis_file %>% as_survey_rep(type="JK1",
                                                repweights=starts_with("PERREPWGT"), weights=WGTPER,
                                                scale=0.96666667)
 # Step 5- Calculate the victimization rate
-ex1_des %>%
+#ex1_des %>%
 # for replicate change  
 #  filter(between(YEAR, 2014, 2015)) %>% summarize(VIOLENT=survey_mean(ANALYSISVAR)) #CHANGE FOR REPLICATE
-  filter(between(YEAR, 2005, 2015)) %>% summarize(VIOLENT=survey_mean(ANALYSISVAR))
+#  filter(between(YEAR, 2005, 2015)) %>% summarize(VIOLENT=survey_mean(ANALYSISVAR))
 
-#tempdf<-ex1_des %>%
-# for replicate change filter(between(YEAR, 2014, 2015)) %>% group_by(V3018) %>% summarize(VIOLENT=survey_mean(ANALYSISVAR))
-#  filter(YEAR==2015) %>% group_by(V3018) %>% summarize(VIOLENT=survey_mean(ANALYSISVAR))
+ex1_des %>%
+#  filter(between(YEAR, 2014, 2015)) %>% group_by(V3018) %>% summarize(VIOLENT=survey_mean(ANALYSISVAR)) #CHANGE FOR REPLICATE
+  filter(between(YEAR, 2005, 2015)) %>% group_by(V3018) %>% summarize(VIOLENT=survey_mean(ANALYSISVAR))
 
 })
 
@@ -107,7 +107,9 @@ data2 <- data.frame(x1 = numeric(),    # Create empty data frame
 
 for(i in 1:52) {                        # Initialize for-loop
   
-  list_i <- models[[i]]      # Create some values for this row
+  list_i <- models[[i]][2,2]      # Create some values for this row
+  
+#  list_i <- models[[i]] #CHANGE FOR REPLICATE
   
   data2[i, ] <- list_i                 # Add values at the bottom of data frame
 }
