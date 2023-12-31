@@ -40,7 +40,6 @@ table(XDF$YEAR)
 
 library(ggplot2)
 
-# Assuming mean_by_group contains the result of your aggregate function
 ggplot(mean_by_group, aes(x = `data$YEAR`, y = `data$illiterate`, color = interaction(`data$SEX2`, `data$STATEFIP2`))) +
   geom_line() +
   labs(x = "Year", y = "Illiterate Proportion", color = "Sex & State") +
