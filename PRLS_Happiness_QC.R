@@ -204,4 +204,78 @@ summary(model1)
 summary(model2)
 summary(model3)
 
+#Additional analysis for SquareTwo Article
+
+library(stargazer)
+
+#Make directionality intuitive, with higher number=higher happiness. 
+prls$happy<-4-prls$HAPPY
+prls$health<-6-prls$SATIS_A
+prls$familylife<-6-prls$SATIS_B
+
+#Is the Latter-day Saint happiness effect different for men than women? 
+
+library(stargazer)
+
+model1 <- lm(happy ~ LDS, data = prls, weights=WEIGHT, subset = GENDER == "Female")
+summary(model1)
+model2 <- lm(happy ~ LDS + GENDER, data = prls, weights=WEIGHT)
+summary(model2)
+model3 <- lm(happy ~ LDS * GENDER, data = prls, weights=WEIGHT)
+summary(model3)
+
+# Output to HTML
+stargazer(model1, model2, model3,
+          type = "html",
+          out = "/Users/stephencranney/Desktop/prls_models_happy.html",
+          title = "Regression Results: Happiness by LDS Status and Gender",
+          align = TRUE,
+          column.labels = c("Females only", "", "Interaction"),
+          covariate.labels = c("LDS", "Gender: Female", "LDS x Gender"),
+          omit.stat = c("f", "ser"),
+          no.space = TRUE,
+          star.cutoffs = c(0.05, 0.01, 0.001),
+          notes = c('"Generally, how happy are you with your life these days?" 1 = Not too happy, 2 = Pretty happy, 3 = Very happy.'))
+
+
+model1 <- lm(health ~ LDS, data = prls, weights=WEIGHT, subset = GENDER == "Female")
+summary(model1)
+model2 <- lm(health ~ LDS + GENDER, data = prls, weights=WEIGHT)
+summary(model2)
+model3 <- lm(health ~ LDS * GENDER, data = prls, weights=WEIGHT)
+summary(model3)
+
+# Output to HTML
+stargazer(model1, model2, model3,
+          type = "html",
+          out = "/Users/stephencranney/Desktop/prls_models_health.html",
+          title = "Regression Results: Health by LDS Status and Gender",
+          align = TRUE,
+          column.labels = c("Females only", "", "Interaction"),
+          covariate.labels = c("LDS", "Gender: Female", "LDS x Gender"),
+          omit.stat = c("f", "ser"),
+          no.space = TRUE, 
+          star.cutoffs = c(0.05, 0.01, 0.001), 
+          notes = c('"Would you say your health in general is excellent, very good, good, fair or poor" 1 = Poor, 2 = Fair, 3 = Good, 4= Very good, 5=Excellent'))
+
+model1 <- lm(familylife ~ LDS, data = prls, weights=WEIGHT, subset = GENDER == "Female")
+summary(model1)
+model2 <- lm(familylife ~ LDS + GENDER, data = prls, weights=WEIGHT)
+summary(model2)
+model3 <- lm(familylife ~ LDS * GENDER, data = prls, weights=WEIGHT)
+summary(model3)
+
+# Output to HTML
+stargazer(model1, model2, model3,
+          type = "html",
+          out = "/Users/stephencranney/Desktop/prls_models_family.html",
+          title = "Regression Results: Family Life by LDS Status and Gender",
+          align = TRUE,
+          column.labels = c("Females only", "", "Interaction"),
+          covariate.labels = c("LDS", "Gender: Female", "LDS x Gender"),
+          omit.stat = c("f", "ser"),
+          no.space = TRUE, 
+          star.cutoffs = c(0.05, 0.01, 0.001), 
+          notes = c('Would you say your family life is excellent, very good, good, fair or poor? 1 = Poor, 2 = Fair, 3 = Good, 4= Very good, 5=Excellent'))
+
 
